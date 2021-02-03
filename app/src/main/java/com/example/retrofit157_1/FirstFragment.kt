@@ -10,7 +10,9 @@ import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.retrofit157_1.databinding.FragmentFirstBinding
+import com.example.retrofit157_1.pojo.MarsTerrain
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -30,11 +32,16 @@ class FirstFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        //instanciar adaptador
+        //instaniar adapter
+        val adapter = MarsAdapter()
+        binding.rvView.adapter=adapter
+        binding.rvView.layoutManager=GridLayoutManager(context,2)
 
         // Observador vieja confiable
         viewModel.getFetchTerrains().observe(viewLifecycleOwner, Observer {
             it?.let {
-                Log.d("LISTADO", it.toString())
+                adapter.update(it)
             }
         })
 
@@ -46,8 +53,17 @@ class FirstFragment : Fragment() {
         })
 
 
-        view.findViewById<Button>(R.id.button_first).setOnClickListener {
+        /*view.findViewById<Button>(R.id.button_first).setOnClickListener {
             findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-        }
+        }*/
+        // Esto esta observando al objeto expuesto en el viewModel
+
+
+        adapter.selectedMarsItem().observe( viewLifecycleOwner,{
+            it?.let {
+            viewModel.selected(it)
+                findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
+            }
+        })
     }
 }

@@ -10,5 +10,5 @@ data class MarsTerrain(
                         val price: Long,
                         @SerializedName("type")
                         val type: String,
-                        @SerializedName("src_img")
+                        @SerializedName("img_src")
                         val srcImg: String)

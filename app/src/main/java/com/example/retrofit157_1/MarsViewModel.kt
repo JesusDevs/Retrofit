@@ -27,4 +27,10 @@ class MarsViewModel : ViewModel() {
       return repository.liveDataMarsTerrain
     }
 
+    var selectedMars : MutableLiveData<MarsTerrain> = MutableLiveData()
+
+    fun selected (marsTerrain: MarsTerrain?){
+        selectedMars.value=marsTerrain
+    }
+
 }
